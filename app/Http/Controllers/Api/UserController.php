@@ -4,13 +4,20 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateUserRequest;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+
+    public function index(): AnonymousResourceCollection
+    {
+        return UserResource::collection(User::query()->orderBy('created_at','desc')->get());
+    }
     public function store(CreateUserRequest $request): JsonResponse
     {
         User::query()->create([
@@ -20,9 +27,6 @@ class UserController extends Controller
             'birthdate' => $request->validated('birthdate'),
             'password' => Hash::make($request->validated('password')) ,
         ]);
-
-                
         return response()->json(['message' => 'User created successfully'], 201);
-
     }
 }
