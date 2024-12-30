@@ -16,6 +16,6 @@ class Transaction extends Model
     protected $casts = ['type' => TransactionTypeEnum::class];
     public function wallet():BelongsTo
     {
-        return $this->belongsTo(Wallet::class);
+        return $this->belongsTo(Wallet::class,'wallet_id');
     }
 }
