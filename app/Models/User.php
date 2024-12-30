@@ -43,7 +43,7 @@ class User extends Authenticatable
     {
         return Attribute::make(
           get: fn ($value) => Carbon::parse($value)->format('d-m-Y'),
-            set: fn ($value) => Carbon::parse($value)->format('d-m-y')
+            set: fn ($value) => Carbon::parse($value)->format('Y-M-D')
         );
     }
     /**
