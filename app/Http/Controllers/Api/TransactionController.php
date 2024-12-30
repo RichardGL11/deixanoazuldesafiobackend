@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateTransanctionRequest;
 use App\Http\Resources\TransactionResource;
 use App\Models\Transaction;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -27,6 +28,15 @@ class TransactionController extends Controller
                 'type'      => $request->validated('type')
             ]);
             return response()->json(['message' => 'Transaction Created Successfully'], 200);
+        });
+
+    }
+
+    public function destroy( Transaction $transaction)
+    {
+        DB::transaction(function () use ( $transaction) {
+            $transaction->delete();
+            return response()->json(['message' => 'Transaction Deleted Successfully'], 200);
         });
 
     }
