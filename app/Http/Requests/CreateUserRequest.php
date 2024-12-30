@@ -16,11 +16,6 @@ class CreateUserRequest extends FormRequest
     {
         return true;
     }
-    protected function prepareForValidation()
-    {
-
-    }
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -31,9 +26,16 @@ class CreateUserRequest extends FormRequest
         return [
             'name'      => 'required|string|max:255|min:3',
             'email'     => 'required|string|email|max:255|unique:users,email',
-            'birthdate' => 'required|date_format:d-m-Y',
+            'birthdate' => 'required|date_format:d-m-Y|before:'. Carbon::now()->subYears(21)->toDateString(),
             'password'  => 'required|string|min:8|confirmed',
             'CPF'       => ['required','string', 'numeric', 'unique:users,CPF', new ValidCpfRule()],
+        ];
+    }
+
+    public function messages()
+    {
+        return[
+            'birthdate.before' => 'It should have at least 21 years old.',
         ];
     }
 }

@@ -88,8 +88,9 @@ describe('validation tests',function (){
 
 
     })->with([
-        'required'  => ['required', ''],
-        'format'       => ['The birthdate field must match the format d-m-Y.', '2000-22-01'],
+        'required'   => ['required', ''],
+        'format'     => ['The birthdate field must match the format d-m-Y.', '2000-22-01'],
+        'before'     => ['It should have at least 21 years old.', '22-01-2015'],
     ]);
 
 

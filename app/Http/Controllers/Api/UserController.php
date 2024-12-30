@@ -20,6 +20,8 @@ class UserController extends Controller
             'birthdate' => $request->validated('birthdate'),
             'password' => Hash::make($request->validated('password')) ,
         ]);
+
+                
         return response()->json(['message' => 'User created successfully'], 201);
 
     }
