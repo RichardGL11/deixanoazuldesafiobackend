@@ -31,3 +31,39 @@ it('create a transaction', function () {
 
     expect($user->wallet->id)->toBe($wallet->id);
 });
+
+describe('validation tests', function (){
+
+    beforeEach(function () {
+        $this->user = \App\Models\User::factory()->create();
+        Sanctum::actingAs($this->user);
+        $this->wallet =  Wallet::factory()->create([
+            'user_id' => $this->user->id,
+        ]);
+    });
+
+    test('wallet_id', function ($rule, $value){
+        $request = getJson(route('transaction.store',[
+            'wallet_id' => $value,
+            'type' => TransactionTypeEnum::CREDITO->value
+        ]));
+        $request->assertJsonValidationErrors(['wallet_id' => $rule]);
+
+    })->with([
+        'required' => ['required',''],
+        'exists'   => ['The selected wallet id is invalid.', 999],
+    ]);
+
+    test('type',function ($rule, $value){
+        $request = getJson(route('transaction.store',[
+            'wallet_id' => $this->wallet->id,
+            'type' => $value
+        ]));
+        $request->assertJsonValidationErrors(['type' => $rule]);
+
+    })->with([
+        'required' => ['required',''],
+        'enum'     => ['The selected type is invalid.', 'wrong type'],
+    ]);
+
+});
