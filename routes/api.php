@@ -21,4 +21,5 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
 
     Route::get('/createTransaction', [TransactionController::class,'store'])->name('transaction.store');
+    Route::get('/transactions', [TransactionController::class,'index'])->name('transactions.index');
 });
