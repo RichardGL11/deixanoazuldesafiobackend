@@ -18,6 +18,11 @@ class UserController extends Controller
     {
         return UserResource::collection(User::query()->orderBy('created_at','desc')->get());
     }
+
+    public function show(User $user): UserResource
+    {
+        return UserResource::make($user);
+    }
     public function store(CreateUserRequest $request): JsonResponse
     {
         User::query()->create([
