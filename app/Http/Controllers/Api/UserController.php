@@ -34,4 +34,11 @@ class UserController extends Controller
         ]);
         return response()->json(['message' => 'User created successfully'], 201);
     }
+
+
+    public function destroy(User $user): JsonResponse
+    {
+        $user->delete();
+        return response()->json(['message' => 'User deleted successfully'], 200);
+    }
 }

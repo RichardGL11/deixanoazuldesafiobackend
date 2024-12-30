@@ -16,4 +16,5 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
     Route::get('users',[UserController::class, 'index'])->name('users.index');
     Route::get('user/{user}',[UserController::class, 'show'])->name('users.show');
+    Route::delete('user/{user}',[UserController::class, 'destroy'])->name('users.destroy');
 });
