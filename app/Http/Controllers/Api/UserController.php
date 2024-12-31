@@ -38,7 +38,7 @@ class UserController extends Controller
 
     public function destroy(User $user): JsonResponse
     {
-        if ($user->wallet->transactions()->count() > 0) {
+        if (!empty($user->wallet->transactions) && $user->wallet->transactions()->count() > 0) {
             return response()->json(['message' => 'User cannot be deleted because it has transactions'], 403);
         }
         $user->delete();
