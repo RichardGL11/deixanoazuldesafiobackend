@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\SetUserBalanceController;
 use App\Http\Controllers\Api\TransactionController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
@@ -23,4 +24,6 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/createTransaction', [TransactionController::class,'store'])->name('transaction.store');
     Route::get('/transactions', [TransactionController::class,'index'])->name('transactions.index');
     Route::delete('/transactions/{transaction}', [TransactionController::class,'destroy'])->name('transactions.destroy');
+
+    Route::post('/user/{user}/update/amount', SetUserBalanceController::class)->name('user.amount');
 });

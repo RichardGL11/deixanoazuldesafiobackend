@@ -8,7 +8,7 @@ use function Pest\Laravel\getJson;
 
 it('should list all transactions paginated', function (){
     $users = \App\Models\User::factory()->count(10)->create();
-    $LoggedUser = \App\Models\User::factory()->create();
+    $LoggedUser = \App\Models\User::factory()->create(['balance' => 0]);
     $wallet = Wallet::factory()->create([
         'user_id' => $LoggedUser->id,
     ]);
@@ -32,6 +32,7 @@ it('should list all transactions paginated', function (){
                     'name',
                     'email',
                     'CPF',
+                    'balance',
                     'birthdate',
                     'created_at'
                 ],
@@ -49,6 +50,7 @@ it('should list all transactions paginated', function (){
                             'name'       => $LoggedUser->name,
                             'email'      => $LoggedUser->email,
                             'CPF'        => $LoggedUser->CPF,
+                            'balance'    => $LoggedUser->balance,
                             'birthdate'  => $LoggedUser->birthdate,
                             'created_at' => $LoggedUser->created_at,
             ]

@@ -29,6 +29,7 @@ class UpdateUserAmountAction
             };
 
           $user->balance = $newAmount;
+
           $user->save();
           DB::commit();
 
