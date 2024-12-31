@@ -30,7 +30,8 @@ it('should not delete an user if he has an transaction', function () {
     ]);
     Transaction::factory()->create([
         'wallet_id' => $wallet->id,
-        'type' => TransactionTypeEnum::CREDITO->value,
+        'type'      => TransactionTypeEnum::CREDITO->value,
+        'amount'    => 100
     ]);
     Sanctum::actingAs($user);
     $request =  deleteJson(route('users.destroy',$user));

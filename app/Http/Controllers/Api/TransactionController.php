@@ -2,17 +2,19 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Actions\CreateTransactionAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateTransanctionRequest;
 use App\Http\Resources\TransactionResource;
 use App\Models\Transaction;
-use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class TransactionController extends Controller
 {
 
+    public function __construct(
+        public CreateTransactionAction $CreateTransactionAction,
+    ){}
 
     public function index()
     {
@@ -20,19 +22,16 @@ class TransactionController extends Controller
 
         return TransactionResource::collection($transactions);
     }
-    public function store(CreateTransanctionRequest $request)
-    {
-        DB::transaction(function () use ($request) {
-            Transaction::query()->create([
-                'wallet_id' => $request->validated('wallet_id'),
-                'type'      => $request->validated('type')
-            ]);
-            return response()->json(['message' => 'Transaction Created Successfully'], 200);
-        });
 
+    /**
+     * @throws \Throwable
+     */
+    public function store(CreateTransanctionRequest $request):void
+    {
+        $this->CreateTransactionAction->execute($request);
     }
 
-    public function destroy( Transaction $transaction)
+    public function destroy(Transaction $transaction)
     {
         DB::transaction(function () use ( $transaction) {
             $transaction->delete();

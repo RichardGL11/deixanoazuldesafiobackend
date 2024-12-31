@@ -25,7 +25,8 @@ class CreateTransanctionRequest extends FormRequest
     {
         return [
             'wallet_id' => ['required','integer','exists:wallets,id'],
-            'type' => ['required', 'string', Rule::enum(TransactionTypeEnum::class)]
+            'amount'    => ['required','integer','min:1'],
+            'type'      => ['required', 'string', Rule::enum(TransactionTypeEnum::class)]
         ];
     }
 }

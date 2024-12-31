@@ -19,14 +19,16 @@ it('create a transaction', function () {
     Sanctum::actingAs($user);
     $request = getJson(route('transaction.store',[
         'wallet_id' => $wallet->id,
-        'type' => TransactionTypeEnum::CREDITO->value
+        'type'      => TransactionTypeEnum::CREDITO->value,
+        'amount'    => 100
     ]));
     $request->assertStatus(200);
 
     assertDatabaseCount(Transaction::class, 1);
     assertDatabaseHas(Transaction::class, [
         'wallet_id' => $wallet->id,
-        'type' => TransactionTypeEnum::CREDITO->value
+        'type'      => TransactionTypeEnum::CREDITO->value,
+        'amount'    => 100,
     ]);
 
     expect($user->wallet->id)->toBe($wallet->id);
@@ -45,7 +47,7 @@ describe('validation tests', function (){
     test('wallet_id', function ($rule, $value){
         $request = getJson(route('transaction.store',[
             'wallet_id' => $value,
-            'type' => TransactionTypeEnum::CREDITO->value
+            'type'      => TransactionTypeEnum::CREDITO->value
         ]));
         $request->assertJsonValidationErrors(['wallet_id' => $rule]);
 
@@ -57,7 +59,7 @@ describe('validation tests', function (){
     test('type',function ($rule, $value){
         $request = getJson(route('transaction.store',[
             'wallet_id' => $this->wallet->id,
-            'type' => $value
+            'type'      => $value
         ]));
         $request->assertJsonValidationErrors(['type' => $rule]);
 

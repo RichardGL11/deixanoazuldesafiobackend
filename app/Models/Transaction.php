@@ -12,7 +12,7 @@ class Transaction extends Model
 {
     /** @use HasFactory<\Database\Factories\TransactionFactory> */
     use HasFactory;
-    protected $fillable = ['type', 'wallet_id'];
+    protected $fillable = ['type', 'wallet_id','amount'];
 
     protected $casts = ['type' => TransactionTypeEnum::class];
     public function wallet():BelongsTo

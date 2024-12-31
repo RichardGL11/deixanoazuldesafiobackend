@@ -14,7 +14,8 @@ it('should list all transactions paginated', function (){
     ]);
     $transaction = Transaction::factory()->create([
         'wallet_id' => $wallet->id,
-        'type' => TransactionTypeEnum::DEBITO->value
+        'type'      => TransactionTypeEnum::DEBITO->value,
+        'amount'    => 100
     ]);
     Sanctum::actingAs($LoggedUser);
 
@@ -42,6 +43,7 @@ it('should list all transactions paginated', function (){
             'id'        => $transaction->id,
             'wallet_id' => $wallet->id,
             'type'      => $transaction->type,
+            'amount'    => $transaction->amount,
             'user'      => [
                             'id'         => $LoggedUser->id,
                             'name'       => $LoggedUser->name,

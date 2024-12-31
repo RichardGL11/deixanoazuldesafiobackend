@@ -15,7 +15,8 @@ it('should delete a Transaction', function () {
     ]);
    $transaction =   Transaction::factory()->create([
         'wallet_id' => $wallet->id,
-        'type' => TransactionTypeEnum::DEBITO->value,
+        'type'      => TransactionTypeEnum::DEBITO->value,
+        'amount'    => 100
     ]);
 
     Sanctum::actingAs($user);
@@ -27,7 +28,7 @@ it('should delete a Transaction', function () {
     expect($wallet->transactions->first())->toBeNull();
     assertdatabaseCount(Transaction::class, 0);
     assertDatabaseMissing(Transaction::class, [
-        'id' => $transaction->id,
+        'id'        => $transaction->id,
         'wallet_id' => $wallet->id,
     ]);
 

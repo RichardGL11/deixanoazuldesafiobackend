@@ -16,6 +16,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(Wallet::class,'wallet_id')->constrained();
             $table->string('type');
+            $table->float('amount');
             $table->timestamps();
         });
     }

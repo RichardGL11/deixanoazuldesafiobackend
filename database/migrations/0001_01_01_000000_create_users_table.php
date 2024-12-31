@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('CPF')->unique();
             $table->date('birthdate');
-            $table->float('amount')->default(0);
+            $table->float('balance')->default(0);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

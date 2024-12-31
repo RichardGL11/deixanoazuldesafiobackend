@@ -20,6 +20,7 @@ class TransactionResource extends JsonResource
             'id'          => $this->id,
             'wallet_id'   => $this->wallet_id,
             'type'        => $this->type,
+            'amount'      => $this->amount,
             'user'        =>  UserResource::make($this->wallet->user),
 
         ];
