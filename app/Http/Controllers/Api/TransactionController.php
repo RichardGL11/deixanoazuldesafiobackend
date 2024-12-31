@@ -7,7 +7,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateTransanctionRequest;
 use App\Http\Resources\TransactionResource;
 use App\Models\Transaction;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\DB;
+use Throwable;
 
 class TransactionController extends Controller
 {
@@ -16,7 +18,7 @@ class TransactionController extends Controller
         public CreateTransactionAction $CreateTransactionAction,
     ){}
 
-    public function index()
+    public function index(): AnonymousResourceCollection
     {
         $transactions = Transaction::with('wallet.user')->paginate(5);
 
@@ -24,7 +26,7 @@ class TransactionController extends Controller
     }
 
     /**
-     * @throws \Throwable
+     * @throws Throwable
      */
     public function store(CreateTransanctionRequest $request):void
     {

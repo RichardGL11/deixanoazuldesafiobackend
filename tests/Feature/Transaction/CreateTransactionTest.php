@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\TransactionTypeEnum;
+use App\Exceptions\InssuficientBalanceException;
 use App\Models\Transaction;
 use App\Models\Wallet;
 use Laravel\Sanctum\Sanctum;
@@ -32,6 +33,26 @@ it('create a transaction', function () {
     ]);
 
     expect($user->wallet->id)->toBe($wallet->id);
+});
+
+it('should not create an trasaction if the user dont have balance enough', function () {
+    $user = \App\Models\User::factory()->create([
+        'balance' => 1
+    ]);
+    $wallet = Wallet::factory()->create([
+        'user_id' => $user->id,
+    ]);
+    Sanctum::actingAs($user);
+    $request = getJson(route('transaction.store',[
+        'wallet_id' => $wallet->id,
+        'type'      => TransactionTypeEnum::DEBITO->value,
+        'amount'    => 100
+    ]));
+    $request->assertJsonFragment([
+        'error' => 'User dont have money enough to do this transaction'
+    ]);
+
+    expect($request->exception)->toBeInstanceOf(InssuficientBalanceException::class);
 });
 
 describe('validation tests', function (){

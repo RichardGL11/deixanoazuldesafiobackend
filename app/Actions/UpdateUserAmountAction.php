@@ -7,18 +7,23 @@ use App\Exceptions\InssuficientBalanceException;
 use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class UpdateUserAmountAction
 {
 
     /**
-     * @throws InssuficientBalanceException
+     * @throws InssuficientBalanceException|\Throwable
      */
     public function execute(User $user, Transaction $transaction)
     {
-        if ($transaction->type == TransactionTypeEnum::DEBITO->value and $user->balance < $transaction->amount) {
-            return  throw new InssuficientBalanceException();
+        if ($transaction->type->value == TransactionTypeEnum::DEBITO->value
+            and
+            (float) $user->balance < (float) $transaction->amount
+        ){
+            return throw new InssuficientBalanceException();
         }
+
         DB::beginTransaction();
         try {
           $newAmount =  match ($transaction->type->value){

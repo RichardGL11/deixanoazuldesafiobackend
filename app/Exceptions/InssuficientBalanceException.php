@@ -3,14 +3,13 @@
 namespace App\Exceptions;
 
 use Exception;
+use Illuminate\Http\JsonResponse;
 
 class InssuficientBalanceException extends Exception
 {
-    /**
-     * Report the exception.
-     */
-    public function report(): void
+
+    public function render(): JsonResponse
     {
-        //
+        return response()->json(['error' => 'User dont have money enough to do this transaction'],403);
     }
 }

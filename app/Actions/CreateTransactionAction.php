@@ -33,14 +33,5 @@ class CreateTransactionAction
             throw $th;
         }
 
-//
-//        DB::transaction(function () use ($request) {
-//            Transaction::query()->create([
-//                'wallet_id' => $request->validated('wallet_id'),
-//                'type'      => $request->validated('type'),
-//                'amount'    => $request->validated('amount'),
-//            ]);
-//            return response()->json(['message' => 'Transaction Created Successfully'], 200);
-//        });
     }
 }
