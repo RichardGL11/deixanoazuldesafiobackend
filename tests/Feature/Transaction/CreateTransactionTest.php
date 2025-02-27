@@ -52,7 +52,8 @@ it('should not create an trasaction if the user dont have balance enough', funct
         'error' => 'User dont have money enough to do this transaction'
     ]);
 
-    expect($request->exception)->toBeInstanceOf(InssuficientBalanceException::class);
+    expect($request->exception)->toBeInstanceOf(InssuficientBalanceException::class)
+        ->and($request->status())->toBe(403);
 });
 
 describe('validation tests', function (){
